@@ -11,7 +11,11 @@ module Med
       def execute
         url = NSURL.fileURLWithPath(path)
         track = ITunes.app.add(url, to:nil)
-        puts track.inspect
+        if track
+          puts "Added #{path} to iTunes"
+        else
+          puts "ERROR: Couldn't add #{path} to iTunes"
+        end
       end
     end
   end
