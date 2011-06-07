@@ -1,0 +1,8 @@
+#!/usr/bin/env macruby -S
+# -*- ruby -*- 
+
+require 'rubygems'
+
+require 'lib/med'
+
+Med::MedCommand.run
