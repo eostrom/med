@@ -30,5 +30,21 @@ module Med
         end
       end
     end
+
+    subcommand 'convert', 'Convert a track to MP3.' do
+      parameter 'TRACK', 'track number to upload', :attribute_name => :number
+
+      def execute
+        track = 
+          Track.find(:trackNumber => number, :kind => 'WAV audio file') ||
+          Track.find(:trackNumber => number, :kind => 'AIFF audio file')
+        
+        if track
+          ITunes.convert(track)
+        else
+          "ERROR: Couldn't find track #{number}"
+        end
+      end
+    end
   end
 end
