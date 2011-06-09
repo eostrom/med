@@ -12,6 +12,14 @@ module Med
         url = NSURL.fileURLWithPath(path)
         track = ITunes.app.add(url, to:nil)
         if track
+          track.artist = track.albumArtist = 'Erik Ostrom'
+          track.album = 'Music Every Day'
+          track.year = Time.now.year
+          if track.name =~ /^([0-9]+) (.*)/
+            track.trackNumber = $1.to_i
+            track.name = $2
+          end
+          
           puts "Added #{path} to iTunes"
         else
           puts "ERROR: Couldn't add #{path} to iTunes"
