@@ -8,12 +8,14 @@ module Med
     subcommand 'add', 'Add an audio file to the iTunes library.' do
       parameter 'FILE', 'the file to add', :attribute_name => :path
       option ['-g', '--genre'], 'GENRE', "the track's genre"
+      option ['-a', '--artist'], 'ARTIST', "the track's artist"
       
       def execute
         url = NSURL.fileURLWithPath(path)
         track = ITunes.app.add(url, to:nil)
         if track
-          track.artist = track.albumArtist = 'Erik Ostrom'
+          track.albumArtist = 'Erik Ostrom'
+          track.artist = artist || 'Erik Ostrom'
           track.album = 'Music Every Day'
           track.year = Time.now.year
           track.genre = genre || 'Electronic'
