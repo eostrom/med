@@ -1,3 +1,5 @@
+require 'uri'
+
 gem 'clamp'
 require 'clamp'
 
@@ -42,8 +44,28 @@ module Med
         if track
           ITunes.convert(track)
         else
-          "ERROR: Couldn't find track #{number}"
+          puts "ERROR: Couldn't find track #{number}"
         end
+      end
+    end
+    
+    subcommand 'upload', 'Upload a track to the web site.' do
+      parameter 'TRACK', 'track number to upload', :attribute_name => :number
+
+      def execute
+        track = Track.find(
+          :trackNumber => number, :kind => 'MPEG audio file')
+        if !track
+          puts "ERROR: couldn't find track #{number}"
+          return
+        end
+
+        file = track.location
+        host = 'erikostrom.com'
+        remote_path = "med/Erik Ostrom - MED - #{file.pathComponents.last}"
+        
+        puts "Uploading to http://#{host}/#{URI::escape(remote_path)}"
+        system('scp', file.path, "#{host}:\"#{host}/#{remote_path}\"")
       end
     end
   end
