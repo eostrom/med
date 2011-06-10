@@ -1,4 +1,4 @@
-#!/usr/bin/env macruby -S
+#!/usr/bin/env rvm macruby -S
 # -*- ruby -*- 
 
 require 'rubygems'
