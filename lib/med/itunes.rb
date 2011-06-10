@@ -19,11 +19,13 @@ module Med
       @app = SBApplication.applicationWithBundleIdentifier('com.apple.itunes')
     end
 
-    # There must be a better way to search the iTunes library than
-    # pulling in all the tracks and grepping through them, but I don't
-    # know it.
     def self.find(params)
-      app.sources['Library'].libraryPlaylists.first.fileTracks.find do |track|
+      search_terms = params
+        .values_at(:name, :album, :artist, :composer)
+        .join(' ')
+        
+      app.sources['Library'].libraryPlaylists.first
+        .searchFor(search_terms, :only => ITunesESrAAll).find do |track|
         params.all? do |key, value|
           track.send(key).to_s == value.to_s
         end
