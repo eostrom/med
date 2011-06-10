@@ -1,6 +1,6 @@
 require 'uri'
 
-gem 'clamp'
+gem 'clamp', :version => '~> 0.2.0'
 require 'clamp'
 
 module Med
